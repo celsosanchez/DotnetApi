@@ -3,7 +3,10 @@ using RestApi.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Logging.AddDataFileLogger((options) => builder.Configuration.GetSection("Logging").GetSection("DataLoggerFile").GetSection("Options").Bind(options));
+builder.Logging.AddDataFileLogger((options) => builder
+.Configuration.GetSection("Logging")
+.GetSection("DataLoggerFile")
+.GetSection("Options").Bind(options));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,9 +22,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

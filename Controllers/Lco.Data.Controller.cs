@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace RestApi.Controllers;
 
@@ -21,18 +22,28 @@ public class DataController : ControllerBase
     [HttpGet(Name = "GetCounters")]
     public IEnumerable<DataModel> Get()
     {
-        _logger.Log(LogLevel.Critical,"serving data");
-        return Enumerable.Range(1, 5).Select(index =>
-    {
-        var generatedPackagesTotal = Random.Shared.Next(0, 300);
-        var generatedPackagesBad = Random.Shared.Next(0, generatedPackagesTotal);
-        return new DataModel
+        _logger.Log(LogLevel.Information, "Accessing Mongo");
+
+        try{
+
+        var client = new MongoClient("mongodb://root:example@localhost:27017/");
+        System.Console.WriteLine(client.ListDatabases().First());
+        }
+        catch(Exception e)
         {
-            TotalPackageCounter = generatedPackagesTotal,
-            BadPackageCounter = generatedPackagesBad,
-            GoodPackageCounter = generatedPackagesTotal - generatedPackagesBad,
-        };
-    }
+            System.Console.WriteLine(e);
+        } 
+        return Enumerable.Range(1, 5).Select(index =>
+        {
+            var generatedPackagesTotal = Random.Shared.Next(0, 300);
+            var generatedPackagesBad = Random.Shared.Next(0, generatedPackagesTotal);
+            return new DataModel
+            {
+                TotalPackageCounter = generatedPackagesTotal,
+                BadPackageCounter = generatedPackagesBad,
+                GoodPackageCounter = generatedPackagesTotal - generatedPackagesBad,
+            };
+        }
     )
     .ToArray();
     }

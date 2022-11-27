@@ -9,8 +9,8 @@ public class LoggerOptions
 {
     public virtual string FilePath { get; set; } = "log_{date}.log";
     public virtual string FolderPath { get; set; } = ".";
-
 }
+
 [ProviderAlias("DataLoggerFile")]
 public class DataLoggerProvider : ILoggerProvider
 {
