@@ -43,7 +43,7 @@ public class DataLogger : ILogger
         _dataLoggerProvider = dataLoggerProvider;
     }
 
-    public IDisposable BeginScope<TState>(TState state)
+    public IDisposable? BeginScope<TState>(TState state)
     {
         return null;
     }
